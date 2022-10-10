@@ -1,6 +1,10 @@
 ### USAGE:
-### Run python scrape.py from the same folder that has the `out` directory.
+# Run python scrape.py from the same folder that has the `out` directory, with the first argument
+# being the semester to scrape in YYYYT format (with T being a term, 1-4) and then a Postgres connection
+# string, e.g.:
+# python scrape.py 20224 postgresql://localhost:5342/byu
 import re
+import sys
 import time
 
 from bs4 import BeautifulSoup
@@ -16,7 +20,7 @@ COLUMNS = {
 
 TIME_FORMAT = "%I:%M%p"
 
-YEAR_TERM = "20214"
+YEAR_TERM = sys.argv[1]
 
 
 def open_or_download_file(filename, fetch_fn):
@@ -97,7 +101,7 @@ def get_buildings_rooms(buildings):
 
 def main():
     # TODO: env variables
-    conn = psycopg2.connect("postgresql://phin:asdf@localhost:5433/byu_fall_2021")
+    conn = psycopg2.connect(sys.argv[2])
     cur = conn.cursor()
     cur.execute("TRUNCATE buildings CASCADE")
     index = open_or_download_file(
