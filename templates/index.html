@@ -241,12 +241,12 @@ select {
       .forEach(input =>
           input.checked = query.getAll('days').indexOf(input.value) != -1
       );
-    timeType.value = query.get('timeType');
+    timeType.value = query.get('timeType') || timeType.value;
     timeType.dispatchEvent(new Event("input"));
-    timeAt.value = query.get('timeAt');
-    timeFrom.value = query.get('timeFrom');
-    timeTo.value = query.get('timeTo');
-    building.value = query.get('building');
+    timeAt.value = query.get('timeAt') || timeAt.value;
+    timeFrom.value = query.get('timeFrom') || timeFrom.value;
+    timeTo.value = query.get('timeTo') || timeTo.value;
+    building.value = query.get('building') || building.value;
   </script>
   </body>
 </html>

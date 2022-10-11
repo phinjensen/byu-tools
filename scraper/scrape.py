@@ -1,8 +1,17 @@
 ### USAGE:
 # Run python scrape.py from the same folder that has the `out` directory, with the first argument
-# being the semester to scrape in YYYYT format (with T being a term, 1-4) and then a Postgres connection
+# being the semester to scrape in YYYYT format (with T being a term, 1-5) and then a Postgres connection
 # string, e.g.:
+#
 # python scrape.py 20224 postgresql://localhost:5342/byu
+#
+# Note that the terms are a bit odd. It seems to be:
+# Winter: 1
+# Spring: 3
+# Summer: 4
+# Fall: 5
+#
+# Just check the requests in the web app.
 import re
 import sys
 import time
@@ -120,6 +129,7 @@ def main():
         )
     ]
 
+    classes = 0
     for building, rooms in get_buildings_rooms(buildings):
         print(building)
         cur.execute(
@@ -134,6 +144,8 @@ def main():
             )
             room_id = cur.fetchone()[0]
             for class_ in room_info["classes"]:
+                print(f"    {classes:04}: {class_['name']}")
+                classes += 1
                 # TODO: How do we deal with time zones? Might be best to not store them and simply
                 # look up the current time in mountain time to query a "now" value?
                 cur.execute(

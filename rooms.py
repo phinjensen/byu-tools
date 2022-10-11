@@ -59,7 +59,7 @@ def lookup():
             if 'timeFrom' not in request.args or 'timeTo' not in request.args:
                 raise Exception("from and to times required for time range")
             conflicting_events = conflicting_events \
-                .where(Events.days.contains(*days)) \
+                .where(SQL("days && ARRAY[%s]::weekday[]" % days)) \
                 .where(
                     SQL(
                         "timerange(start_time::time, end_time::time, '()') && timerange('%s'::time, '%s'::time)" %
