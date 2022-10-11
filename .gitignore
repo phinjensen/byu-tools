@@ -1,3 +1,4 @@
 .env
 scraper/out/*
 fly.toml
+__pycache__
