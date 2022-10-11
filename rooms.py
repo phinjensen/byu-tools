@@ -3,6 +3,7 @@ from datetime import datetime
 from flask.templating import render_template
 from flask import Flask, request
 from peewee import SQL
+from pytz import timezone
 
 from models import Buildings, Events, Rooms, database
 
@@ -20,6 +21,8 @@ DAY_MAP = {
 
 # TODO: make this dynamic for earliest/latest hours
 TIMES = [f"{h % 12 or 12}:{m:02} {'AM' if h < 12 else 'PM'}" for h in range(6, 23) for m in range(0, 60, 15) ]
+
+UTAH_TIMEZONE = timezone('US/Mountain')
 
 @app.route('/')
 def lookup():
@@ -41,7 +44,7 @@ def lookup():
         days = request.args.getlist("days")
 
         if request.args.get('timeType') == 'now':
-            now = datetime.now().time()
+            now = datetime.now(UTAH_TIMEZONE).time()
             day = DAY_MAP[now.strftime('%a')]
             conflicting_events = conflicting_events \
                 .where(Events.days.contains(day)) \
