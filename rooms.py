@@ -1,9 +1,10 @@
 from datetime import datetime
 
 from flask.templating import render_template
-from models import Buildings, Events, Rooms
 from flask import Flask, request
 from peewee import SQL
+
+from models import Buildings, Events, Rooms, database
 
 app = Flask(__name__)
 
@@ -22,6 +23,7 @@ TIMES = [f"{h % 12 or 12}:{m:02} {'AM' if h < 12 else 'PM'}" for h in range(6, 2
 
 @app.route('/')
 def lookup():
+    database.connect()
     result = []
     buildings = Buildings.select()
     show_results = 'none'
@@ -73,4 +75,14 @@ def lookup():
 
         show_results = 'no_results' if len(result) == 0 else 'all'
 
-    return render_template('index.html', show_results=show_results, result=result, buildings=buildings, times=TIMES)
+    render = render_template(
+        'index.html',
+        show_results=show_results,
+        result=result,
+        buildings=buildings,
+        times=TIMES
+    )
+
+    database.close()
+
+    return render

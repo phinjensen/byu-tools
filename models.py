@@ -4,7 +4,7 @@ from peewee import CharField, Field, ForeignKeyField, Model, TimeField
 from playhouse.db_url import connect
 from playhouse.postgres_ext import PostgresqlExtDatabase, ArrayField
 
-database = connect(os.environ.get('DATABASE_URL'))
+database = connect(os.environ.get('DATABASE_URL'), autoconnect=False)
 
 class BaseModel(Model):
     class Meta:
