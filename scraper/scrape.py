@@ -12,6 +12,7 @@
 # Fall: 5
 #
 # Just check the requests in the web app.
+import os
 import re
 import sys
 import time
@@ -34,11 +35,11 @@ YEAR_TERM = sys.argv[1]
 
 def open_or_download_file(filename, fetch_fn):
     try:
-        with open(f"out/{filename}", "r") as fh:
+        with open(f"out/{YEAR_TERM}/{filename}", "r") as fh:
             html = fh.read()
     except FileNotFoundError:
         html = fetch_fn()
-        with open(f"out/{filename}", "w") as fh:
+        with open(f"out/{YEAR_TERM}/{filename}", "w") as fh:
             print(html, file=fh)
         time.sleep(0.1)  # to avoid overwhelming the server
     return html
@@ -109,6 +110,10 @@ def get_buildings_rooms(buildings):
 
 
 def main():
+    try:
+        os.mkdir(f"out/{YEAR_TERM}")
+    except FileExistsError:
+        print("Folder exists.")
     # TODO: env variables
     conn = psycopg2.connect(sys.argv[2])
     cur = conn.cursor()
