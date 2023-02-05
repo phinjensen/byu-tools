@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  app:
+    image: byu-tools
+    ports:
+      - 8080:8080
+    environment:
+      DATABASE_URL: postgresql://postgres:example@postgres/byu_tools
+  postgres:
+    image: postgres:14
+    volumes:
+      - byu-tools-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: byu_tools
+      POSTGRES_PASSWORD: example
+
+volumes:
+  byu-tools-data:
