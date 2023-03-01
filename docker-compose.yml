@@ -8,12 +8,9 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:example@postgres/byu_tools
   postgres:
-    image: postgres:14
+    image: byu-tools-db
     volumes:
       - byu-tools-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: byu_tools
-      POSTGRES_PASSWORD: example
 
 volumes:
   byu-tools-data:
