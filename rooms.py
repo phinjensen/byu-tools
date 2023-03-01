@@ -24,9 +24,17 @@ TIMES = [f"{h % 12 or 12}:{m:02} {'AM' if h < 12 else 'PM'}" for h in range(6, 2
 
 UTAH_TIMEZONE = timezone('US/Mountain')
 
+@app.before_request
+def _db_connect():
+    database.connect()
+
+@app.teardown_request
+def _db_close(exc):
+    if not database.is_closed():
+        database.close()
+
 @app.route('/')
 def lookup():
-    database.connect()
     result = []
     buildings = Buildings.select()
     show_results = 'none'
@@ -85,7 +93,5 @@ def lookup():
         buildings=buildings,
         times=TIMES
     )
-
-    database.close()
 
     return render
