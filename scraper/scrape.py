@@ -46,13 +46,10 @@ def open_or_download_file(filename, fetch_fn):
 
 
 def get_class_info(row):
-    start, end = (
-        row.find_all("td")[COLUMNS["class_period"]]
-        .text.strip()
-        .replace("a", "am")
-        .replace("p", "pm")
-        .split(" - ")
-    )
+    times = row.find_all("td")[COLUMNS["class_period"]].text.strip().replace("a", "am").replace("p", "pm").split(" - ")
+    if len(times) < 2:
+        return None
+    start, end = times
     start = time.strptime(start, TIME_FORMAT)
     end = time.strptime(end, TIME_FORMAT)
     days = row.find_all("td")[COLUMNS["days"]].text.strip()
@@ -88,7 +85,9 @@ def get_room_info(building, room):
     if schedule_table:
         schedule_table = schedule_table.parent.parent
         for row in schedule_table.find_all("tr")[1:]:
-            result["classes"].append(get_class_info(row))
+            info = get_class_info(row)
+            if info:
+                result["classes"].append(info)
     return result
 
 

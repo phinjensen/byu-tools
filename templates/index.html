@@ -1,227 +1,230 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>BYU open room finder</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <script async defer data-website-id="3dc67f38-d9a0-4545-a96f-838f41415c6a" src="https://umami.phinjensen.com/zzz.js"></script>
-<style>
-body {
-  margin: 0;
-  text-align: center;
-  font-family: sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-}
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <script
+      async
+      defer
+      data-website-id="3dc67f38-d9a0-4545-a96f-838f41415c6a"
+      src="https://umami.phinjensen.com/zzz.js"
+    ></script>
+    <style>
+      body {
+        margin: 0;
+        text-align: center;
+        font-family: sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+      }
 
-select {
-  text-align: center;
-  font-family: sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-}
+      select {
+        text-align: center;
+        font-family: sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+      }
 
-h1 {
-  font-size: 1.6em;
-}
+      h1 {
+        font-size: 1.6em;
+      }
 
-.container {
-  display: flex;
-  flex-flow: column;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  justify-content: center;
-}
+      .container {
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+        height: 100vh;
+        margin: 0 auto;
+        justify-content: center;
+      }
 
-.content {
-  flex: 1 1 auto;
-  overflow: auto;
-}
+      .content {
+        flex: 1 1 auto;
+        overflow: auto;
+      }
 
-@media screen and (min-width: 800px) {
-  .container {
-    width: 800px;
-  }
-}
+      @media screen and (min-width: 800px) {
+        .container {
+          width: 800px;
+        }
+      }
 
-.form > .row {
-  margin: 8px 8px 0;
-}
+      .form > .row {
+        margin: 8px 8px 0;
+      }
 
-select {
-  border: none;
-  border-bottom: 3px solid #002e5d;
-  background-color: #d6ebff;
-  padding: 8px;
-}
+      select {
+        border: none;
+        border-bottom: 3px solid #002e5d;
+        background-color: #d6ebff;
+        padding: 8px;
+      }
 
-.days {
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  padding: 0;
-  gap: 8px;
-}
+      .days {
+        display: inline-flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        padding: 0;
+        gap: 8px;
+      }
 
-.days div {
-}
+      .days div {
+      }
 
-.days input[type="checkbox"] {
-  display: none;
-}
+      .days input[type="checkbox"] {
+        display: none;
+      }
 
-.days input[type="checkbox"] ~ label {
-  border-bottom: 3px dotted #333;
-  background-color: #ddd;
-  display: block;
-  padding: 8px;
-}
+      .days input[type="checkbox"] ~ label {
+        border-bottom: 3px dotted #333;
+        background-color: #ddd;
+        display: block;
+        padding: 8px;
+      }
 
-.days input[type="checkbox"]:checked ~ label {
-  border-bottom: 3px solid #002e5d;
-  background-color: #d6ebff;
-  padding: 8px;
-}
+      .days input[type="checkbox"]:checked ~ label {
+        border-bottom: 3px solid #002e5d;
+        background-color: #d6ebff;
+        padding: 8px;
+      }
 
-.hidden {
-  display: none;
-}
+      .hidden {
+        display: none;
+      }
 
-.results {
-  max-width: 300px;
-  margin: 0 auto;
-}
+      .results {
+        max-width: 300px;
+        margin: 0 auto;
+      }
 
-.results > tr > * {
-  padding: 4px;
-  text-align: left;
-}
+      .results > tr > * {
+        padding: 4px;
+        text-align: left;
+      }
 
-.helpful-links {
-  border-top: 1px solid #002e5d;
-  padding: 8px;
-  flex: 0 0 auto;
-  font-size: 80%;
-}
-</style>
+      .helpful-links {
+        border-top: 1px solid #002e5d;
+        padding: 8px;
+        flex: 0 0 auto;
+        font-size: 80%;
+      }
+    </style>
   </head>
 
   <body>
-  <div class="container" data-controller="rooms">
-    <div class="content">
-      <h1>BYU open room finder</h1>
-      <h4>Up-to-date for Winter 2023</h4>
-      <form class="form" method="GET" action="">
-        <div class="row">
-          I want to find an empty room in
-          <select name="building">
-            <option value="_any">any building</option>
-            {% for building in buildings %}
+    <div class="container" data-controller="rooms">
+      <div class="content">
+        <h1>BYU open room finder</h1>
+        <h4>Up-to-date for Fall 2023</h4>
+        <form class="form" method="GET" action="">
+          <div class="row">
+            I want to find an empty room in
+            <select name="building">
+              <option value="_any">any building</option>
+              {% for building in buildings %}
               <option value="{{ building.name }}">{{ building.name }}</option>
-            {% endfor %}
-          </select>
-          , available
-          <select name="timeType">
-            <option value="now">right now</option>
-            <option value="at">at</option>
-            <option value="between">between</option>
-          </select>
-        </div>
-        <div class="row">
-          <select class="hidden times" name="timeAt">
-            {% for time in times %}
+              {% endfor %}
+            </select>
+            , available
+            <select name="timeType">
+              <option value="now">right now</option>
+              <option value="at">at</option>
+              <option value="between">between</option>
+            </select>
+          </div>
+          <div class="row">
+            <select class="hidden times" name="timeAt">
+              {% for time in times %}
               <option>{{time}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="row">
-          <span class="hidden" id="timeBetween">
-            <select class="times" name="timeFrom">
-              {% for time in times %}
-                <option>{{time}}</option>
               {% endfor %}
             </select>
-            and
-            <select class="times" name="timeTo">
-              {% for time in times %}
+          </div>
+          <div class="row">
+            <span class="hidden" id="timeBetween">
+              <select class="times" name="timeFrom">
+                {% for time in times %}
                 <option>{{time}}</option>
-              {% endfor %}
-            </select>
-          </span>
-        </div>
-        <div class="row">
-          <fieldset class="hidden days" id="days">
-            on
-            <div>
-              <input type="checkbox" name="days" value="M" id="M">
-              <label for="M">Monday,</label>                        
-            </div>                                                  
-            <div>                                                   
-              <input type="checkbox" name="days" value="T" id="T">
-              <label for="T">Tuesday,</label>                       
-            </div>                                                  
-            <div>                                                   
-              <input type="checkbox" name="days" value="W" id="W">
-              <label for="W">Wednesday,</label>                     
-            </div>                                                  
-            <div>                                                   
-              <input type="checkbox" name="days" value="Th" id="Th">
-              <label for="Th">Thursday,</label>                     
-            </div>                                                  
-            <div>                                                   
-              <input type="checkbox" name="days" value="F" id="F">
-              <label for="F">Friday</label>
-            </div>
-          </fieldset>
-        </div>
-        <div class="row">
-          <button type="submit">Find rooms</button>
-        </div>
-      </form>
-      {% if show_results == 'no_results' %}
-          <p>No results.</p>
+                {% endfor %}
+              </select>
+              and
+              <select class="times" name="timeTo">
+                {% for time in times %}
+                <option>{{time}}</option>
+                {% endfor %}
+              </select>
+            </span>
+          </div>
+          <div class="row">
+            <fieldset class="hidden days" id="days">
+              on
+              <div>
+                <input type="checkbox" name="days" value="M" id="M" />
+                <label for="M">Monday,</label>
+              </div>
+              <div>
+                <input type="checkbox" name="days" value="T" id="T" />
+                <label for="T">Tuesday,</label>
+              </div>
+              <div>
+                <input type="checkbox" name="days" value="W" id="W" />
+                <label for="W">Wednesday,</label>
+              </div>
+              <div>
+                <input type="checkbox" name="days" value="Th" id="Th" />
+                <label for="Th">Thursday,</label>
+              </div>
+              <div>
+                <input type="checkbox" name="days" value="F" id="F" />
+                <label for="F">Friday</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="row">
+            <button type="submit">Find rooms</button>
+          </div>
+        </form>
+        {% if show_results == 'no_results' %}
+        <p>No results.</p>
         {% else %}
-          <table class="results {% if show_results == 'none' %}hidden{% endif %}">
-            <tr>
-              <th>Building</th>
-              <th>Room</th>
-            </tr>
-            {% for room in result %}
-              <tr>
-                <td>
-                  {{ room.building.name }}
-                </td>
-                <td>
-                  {{ room.number }}
-                </td>
-              </tr>
-            {% endfor %}
-          </table>
-      {% endif %}
+        <table class="results {% if show_results == 'none' %}hidden{% endif %}">
+          <tr>
+            <th>Building</th>
+            <th>Room</th>
+          </tr>
+          {% for room in result %}
+          <tr>
+            <td>{{ room.building.name }}</td>
+            <td>{{ room.number }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        {% endif %}
+      </div>
+      <div class="helpful-links">
+        <a href="https://map.byu.edu/">campus map</a>
+        —
+        <a href="https://y.byu.edu/class_schedule/cgi/classRoom2.cgi"
+          >data source</a
+        >
+        —
+        <a href="https://github.com/phinjensen/byu-tools">website source</a>
+        <br />
+        made with 🤔 by <a href="https://phinjensen.com/">Phin Jensen</a>
+      </div>
     </div>
-    <div class="helpful-links">
-      <a href="https://map.byu.edu/">campus map</a>
-      —
-      <a href="https://y.byu.edu/class_schedule/cgi/classRoom2.cgi">data source</a>
-      —
-      <a href="https://github.com/phinjensen/byu-tools">website source</a>
-      <br/>
-      made with 🤔 by <a href="https://phinjensen.com/">Phin Jensen</a>
-    </div>
-  </div>
 
-  <script>
-    let days = document.querySelector('#days');
-    let timeBetween = document.querySelector('#timeBetween');
-    let timeAt = document.querySelector('select[name=timeAt]');
-    let timeType = document.querySelector('select[name=timeType]');
-    let timeFrom = document.querySelector('select[name=timeFrom]');
-    let timeTo = document.querySelector('select[name=timeTo]');
-    let building = document.querySelector('select[name=building]');
+    <script>
+      let days = document.querySelector("#days");
+      let timeBetween = document.querySelector("#timeBetween");
+      let timeAt = document.querySelector("select[name=timeAt]");
+      let timeType = document.querySelector("select[name=timeType]");
+      let timeFrom = document.querySelector("select[name=timeFrom]");
+      let timeTo = document.querySelector("select[name=timeTo]");
+      let building = document.querySelector("select[name=building]");
 
-    timeType.oninput = (event) => {
+      timeType.oninput = (event) => {
         timeBetween.classList.add("hidden");
         days.classList.add("hidden");
         timeAt.classList.add("hidden");
@@ -232,21 +235,22 @@ select {
           days.classList.remove("hidden");
           timeBetween.classList.remove("hidden");
         }
-    };
+      };
 
-    let query = new URLSearchParams(window.location.search);
+      let query = new URLSearchParams(window.location.search);
 
-    days
-      .querySelectorAll("input[type=checkbox]")
-      .forEach(input =>
-          input.checked = query.getAll('days').indexOf(input.value) != -1
-      );
-    timeType.value = query.get('timeType') || timeType.value;
-    timeType.dispatchEvent(new Event("input"));
-    timeAt.value = query.get('timeAt') || timeAt.value;
-    timeFrom.value = query.get('timeFrom') || timeFrom.value;
-    timeTo.value = query.get('timeTo') || timeTo.value;
-    building.value = query.get('building') || building.value;
-  </script>
+      days
+        .querySelectorAll("input[type=checkbox]")
+        .forEach(
+          (input) =>
+            (input.checked = query.getAll("days").indexOf(input.value) != -1),
+        );
+      timeType.value = query.get("timeType") || timeType.value;
+      timeType.dispatchEvent(new Event("input"));
+      timeAt.value = query.get("timeAt") || timeAt.value;
+      timeFrom.value = query.get("timeFrom") || timeFrom.value;
+      timeTo.value = query.get("timeTo") || timeTo.value;
+      building.value = query.get("building") || building.value;
+    </script>
   </body>
 </html>
