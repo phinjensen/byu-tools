@@ -105,7 +105,9 @@ def get_buildings_rooms(buildings):
             ).text,
         )
         soup = BeautifulSoup(html, "html.parser")
-        yield (building, [tag.text for tag in soup.find("table").find_all("a")])
+        table = soup.find("table")
+        if table: # some buildings (e.g. MOA) may have no table on this page
+            yield (building, [tag.text for tag in table.find_all("a")])
 
 
 def main():
